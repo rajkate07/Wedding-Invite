@@ -42,7 +42,8 @@
   pointer-events: none;
 }
 
-.door-left, .door-right {
+.door-left,
+.door-right {
   position: absolute;
   top: 0;
   width: 50%;
@@ -51,7 +52,7 @@
   display: flex;
   align-items: center;
   z-index: 2;
-  box-shadow: 10px 0 50px rgba(0,0,0,0.5);
+  box-shadow: 10px 0 50px rgba(0, 0, 0, 0.5);
 }
 
 .door-left {
@@ -73,31 +74,40 @@
   width: 100%;
   height: 100%;
   background-image: url('/door_texture.png');
-  background-size: cover;
-  background-position: center;
-  filter: brightness(0.6) sepia(0.2);
+  background-size: 200% 100%;
+  /* Ensure each door shows half of the full texture */
+  background-repeat: no-repeat;
+  filter: brightness(0.7) sepia(0.1);
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.5);
 }
 
-.door-left .door-texture { background-position: left center; }
-.door-right .door-texture { background-position: right center; }
+.door-left .door-texture {
+  background-position: 0% center;
+}
+
+.door-right .door-texture {
+  background-position: 100% center;
+}
 
 .door-handle {
-  width: 50px;
-  height: 50px;
-  background: radial-gradient(circle, #ffd700, #b8860b);
-  border-radius: 50%;
+  width: 40px;
+  height: 80px;
+  background: linear-gradient(to right, #b8860b, #ffd700, #b8860b);
+  border-radius: 40px 0 0 40px;
   position: absolute;
   z-index: 3;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5), inset 0 0 10px rgba(255,255,255,0.5);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
   border: 1px solid #8b4513;
 }
 
 .door-left .door-handle {
-  right: -25px;
+  right: 0;
+  border-radius: 40px 0 0 40px;
 }
 
 .door-right .door-handle {
-  left: -25px;
+  left: 0;
+  border-radius: 0 40px 40px 0;
 }
 
 .door-handle::after {
@@ -144,28 +154,54 @@
 }
 
 @keyframes pulse-glow {
-  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
-  100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.6; }
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.3;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.6;
+  }
 }
 
 .open-invitation-btn {
-  background: rgba(139, 0, 0, 0.85);
+  background: rgba(139, 0, 0, 0.9);
   color: white;
-  border: 1px solid #ffd700;
-  padding: 12px 28px;
+  border: 1.5px solid #ffd700;
+  padding: 14px 32px;
   border-radius: 50px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
   transition: all 0.3s ease;
   z-index: 11;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(10px);
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .door-texture {
+    background-size: 400% 100%;
+    /* Zoom out a bit on mobile to see more of the door pattern */
+  }
+
+  .open-invitation-btn {
+    padding: 12px 24px;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+  }
+
+  .door-handle {
+    width: 30px;
+    height: 70px;
+  }
 }
 
 .open-invitation-btn:hover {
@@ -206,24 +242,95 @@
 }
 
 @keyframes fall-rotate {
-  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
 }
 
 /* Generate different animations for petals */
-.petal:nth-child(1) { left: 10%; animation-duration: 4s; animation-delay: 0s; }
-.petal:nth-child(2) { left: 20%; animation-duration: 5s; animation-delay: 0.5s; width: 30px; height: 30px; }
-.petal:nth-child(3) { left: 35%; animation-duration: 6s; animation-delay: 1s; }
-.petal:nth-child(4) { left: 50%; animation-duration: 4.5s; animation-delay: 0.2s; }
-.petal:nth-child(5) { left: 65%; animation-duration: 5.5s; animation-delay: 0.8s; width: 20px; height: 20px; }
-.petal:nth-child(6) { left: 80%; animation-duration: 4.8s; animation-delay: 1.2s; }
-.petal:nth-child(7) { left: 15%; animation-duration: 5.2s; animation-delay: 2s; }
-.petal:nth-child(8) { left: 45%; animation-duration: 4s; animation-delay: 1.5s; }
-.petal:nth-child(9) { left: 70%; animation-duration: 6.5s; animation-delay: 0.3s; }
-.petal:nth-child(10) { left: 90%; animation-duration: 5s; animation-delay: 1s; }
-.petal:nth-child(n+11) { display: none; } /* Show more if needed */
+.petal:nth-child(1) {
+  left: 10%;
+  animation-duration: 4s;
+  animation-delay: 0s;
+}
+
+.petal:nth-child(2) {
+  left: 20%;
+  animation-duration: 5s;
+  animation-delay: 0.5s;
+  width: 30px;
+  height: 30px;
+}
+
+.petal:nth-child(3) {
+  left: 35%;
+  animation-duration: 6s;
+  animation-delay: 1s;
+}
+
+.petal:nth-child(4) {
+  left: 50%;
+  animation-duration: 4.5s;
+  animation-delay: 0.2s;
+}
+
+.petal:nth-child(5) {
+  left: 65%;
+  animation-duration: 5.5s;
+  animation-delay: 0.8s;
+  width: 20px;
+  height: 20px;
+}
+
+.petal:nth-child(6) {
+  left: 80%;
+  animation-duration: 4.8s;
+  animation-delay: 1.2s;
+}
+
+.petal:nth-child(7) {
+  left: 15%;
+  animation-duration: 5.2s;
+  animation-delay: 2s;
+}
+
+.petal:nth-child(8) {
+  left: 45%;
+  animation-duration: 4s;
+  animation-delay: 1.5s;
+}
+
+.petal:nth-child(9) {
+  left: 70%;
+  animation-duration: 6.5s;
+  animation-delay: 0.3s;
+}
+
+.petal:nth-child(10) {
+  left: 90%;
+  animation-duration: 5s;
+  animation-delay: 1s;
+}
+
+.petal:nth-child(n+11) {
+  display: none;
+}
+
+/* Show more if needed */
 
 .door-wrapper.animating .petals-container {
   z-index: 20;
@@ -761,8 +868,15 @@
 }
 
 @keyframes scale-in {
-  from { transform: scale(0); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .rsvp-success-msg h3 {
