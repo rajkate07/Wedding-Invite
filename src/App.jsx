@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import ganeshVideo from './assets/ganesh.mp4';
 
 function App() {
   const [timeLeft, setTimeLeft] = useState({
@@ -12,10 +11,6 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDoorOpen, setIsDoorOpen] = useState(false);
   const [isAnimationFinished, setIsAnimationFinished] = useState(false);
-  const [showScrollGuide, setShowScrollGuide] = useState(true);
-
-  const videoRef = useRef(null);
-  const videoSectionRef = useRef(null);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
@@ -23,31 +18,6 @@ function App() {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-
-      // Hide guide on scroll
-      if (window.scrollY > 100) setShowScrollGuide(false);
-
-      // Video scrubbing logic
-      if (videoSectionRef.current && videoRef.current) {
-        const section = videoSectionRef.current;
-        const video = videoRef.current;
-
-        const sectionRect = section.getBoundingClientRect();
-        const sectionTop = sectionRect.top;
-        const sectionHeight = sectionRect.height;
-        const windowHeight = window.innerHeight;
-
-        // Calculate progress: starts when section enters, ends when it leaves
-        if (sectionTop < windowHeight && sectionTop + sectionHeight > 0) {
-          const scrollDistance = windowHeight - sectionTop;
-          const totalDistance = windowHeight + sectionHeight;
-          const scrollFraction = scrollDistance / totalDistance;
-
-          if (!isNaN(video.duration) && video.duration > 0) {
-            video.currentTime = video.duration * Math.min(Math.max(scrollFraction, 0), 1);
-          }
-        }
-      }
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -159,31 +129,10 @@ function App() {
               <span>01 . 05 . 2026</span>
               <span className="line"></span>
             </div>
-
-            {showScrollGuide && (
-              <div className="scroll-guide-popup fade-in">
-                <div className="mouse-icon">
-                  <div className="wheel"></div>
-                </div>
-                <span>Scroll down for a blessing</span>
-              </div>
-            )}
           </div>
         </section>
 
-        {/* Video Scrubbing Section */}
-        <section ref={videoSectionRef} className="video-scrub-section">
-          <div className="video-sticky-wrapper">
-            <video
-              ref={videoRef}
-              src={ganeshVideo}
-              muted
-              playsInline
-              preload="auto"
-              className="scrub-video"
-            />
-          </div>
-        </section>
+
 
         {/* Countdown Section */}
         <section className="countdown-section">
