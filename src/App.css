@@ -796,63 +796,7 @@
   font-style: italic;
 }
 
-/* Scroll Animation */
-.walking-couple-container {
-  position: fixed;
-  bottom: 20px;
-  left: 0;
-  width: 100%;
-  height: 100px;
-  pointer-events: none;
-  z-index: 2000;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  padding: 0 50px;
-  transition: opacity 0.5s ease;
-}
 
-.groom-walker, .bride-walker {
-  width: 80px;
-  height: auto;
-  position: absolute;
-  bottom: 0;
-  mix-blend-mode: multiply;
-  transition: transform 0.1s linear;
-  animation: walk-bounce 0.5s infinite alternate ease-in-out;
-}
-
-@keyframes walk-bounce {
-  from { transform: translateY(0) rotate(-2deg); }
-  to { transform: translateY(-10px) rotate(2deg); }
-}
-
-.meeting-heart {
-  position: absolute;
-  left: 50%;
-  bottom: 80px;
-  transform: translateX(-50%) scale(0);
-  font-size: 2rem;
-  color: #e91e63;
-  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.walking-couple-container.together .meeting-heart {
-  transform: translateX(-50%) scale(1.5);
-  animation: heart-beat 1s infinite;
-}
-
-@keyframes heart-beat {
-  0% { transform: translateX(-50%) scale(1.5); }
-  50% { transform: translateX(-50%) scale(1.8); }
-  100% { transform: translateX(-50%) scale(1.5); }
-}
-
-@media (max-width: 768px) {
-  .groom-walker, .bride-walker {
-    width: 60px;
-  }
-}
 
 /* Footer */
 .footer {
@@ -956,7 +900,5 @@
     padding: 30px;
   }
 
-  .walking-couple-container {
-    padding: 0 20px;
-  }
+
 }

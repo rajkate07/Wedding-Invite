@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import groomWalker from './assets/groom_walker.png';
-import brideWalker from './assets/bride_walker.png';
 
 function App() {
   const [timeLeft, setTimeLeft] = useState({
@@ -14,21 +12,12 @@ function App() {
   const [isDoorOpen, setIsDoorOpen] = useState(false);
   const [isAnimationFinished, setIsAnimationFinished] = useState(false);
 
-  // Scroll Progress Tracking
-  const [scrollProgress, setScrollProgress] = useState(0);
-
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-      
-      // Calculate scroll progress (0 to 1)
-      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrolledProgress = winScroll / height;
-      setScrollProgress(scrolledProgress);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -251,30 +240,6 @@ function App() {
         </section>
 
 
-
-        {/* Scrolling Animation: Walking Couple */}
-        <div 
-          className={`walking-couple-container ${scrollProgress > 0.95 ? 'together' : ''}`}
-          style={{ opacity: isAnimationFinished ? 1 : 0 }}
-        >
-          <img 
-            src={groomWalker} 
-            alt="Groom" 
-            className="groom-walker"
-            style={{ 
-              left: `${scrollProgress * 45}%`
-            }}
-          />
-          <div className="meeting-heart">❤️</div>
-          <img 
-            src={brideWalker} 
-            alt="Bride" 
-            className="bride-walker"
-            style={{ 
-              right: `${scrollProgress * 45}%`
-            }}
-          />
-        </div>
 
         {/* Quotes Section */}
         <section className="quotes-section">
