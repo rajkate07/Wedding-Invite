@@ -886,6 +886,46 @@
   margin: 30px auto;
 }
 
+.footer-contact {
+  margin-top: 40px;
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contact-title {
+  font-size: 0.9rem;
+  color: var(--gold);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.contact-links {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.contact-item {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact-item:hover {
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.contact-item .icon {
+  font-size: 1.2rem;
+}
+
 .copyright {
   font-size: 0.8rem;
   opacity: 0.6;

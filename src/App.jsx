@@ -31,7 +31,7 @@ function App() {
       if (videoSectionRef.current && videoRef.current) {
         const section = videoSectionRef.current;
         const video = videoRef.current;
-        
+
         const sectionRect = section.getBoundingClientRect();
         const sectionTop = sectionRect.top;
         const sectionHeight = sectionRect.height;
@@ -42,7 +42,7 @@ function App() {
           const scrollDistance = windowHeight - sectionTop;
           const totalDistance = windowHeight + sectionHeight;
           const scrollFraction = scrollDistance / totalDistance;
-          
+
           if (!isNaN(video.duration) && video.duration > 0) {
             video.currentTime = video.duration * Math.min(Math.max(scrollFraction, 0), 1);
           }
@@ -314,7 +314,7 @@ function App() {
             <h3 className="serif">Gouri & Shridhar</h3>
             <p>We look forward to celebrating with you</p>
             <div className="footer-divider"></div>
-            <p className="copyright">&copy; 2026 Crafted with Love</p>
+            <p className="copyright">&copy; 2026 Crafted By Raj Kate</p>
           </div>
         </footer>
       </div>
