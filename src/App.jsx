@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import groomWalker from './assets/groom_walker.png';
+import brideWalker from './assets/bride_walker.png';
 
 function App() {
   const [timeLeft, setTimeLeft] = useState({
@@ -12,13 +14,8 @@ function App() {
   const [isDoorOpen, setIsDoorOpen] = useState(false);
   const [isAnimationFinished, setIsAnimationFinished] = useState(false);
 
-  // RSVP State
-  const [rsvpData, setRsvpData] = useState({
-    name: '',
-    guests: '1',
-    message: ''
-  });
-  const [rsvpStatus, setRsvpStatus] = useState('idle'); // idle, submitting, success
+  // Scroll Progress Tracking
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
@@ -26,6 +23,12 @@ function App() {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      
+      // Calculate scroll progress (0 to 1)
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolledProgress = winScroll / height;
+      setScrollProgress(scrolledProgress);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -67,39 +70,7 @@ function App() {
     }, 2500);
   };
 
-  const handleRSVPSubmit = async (e) => {
-    e.preventDefault();
-    setRsvpStatus('submitting');
 
-    // Formspree Endpoint
-    // IMPORTANT: Sign up at formspree.io, create a form, and replace 'YOUR_FORM_ID' with yours
-    const formspreeUrl = "https://formspree.io/f/maqaeneb";
-
-    try {
-      const response = await fetch(formspreeUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(rsvpData)
-      });
-
-      if (response.ok) {
-        setRsvpStatus('success');
-      } else {
-        alert('Oops! There was a problem submitting your RSVP. Please try again.');
-        setRsvpStatus('idle');
-      }
-    } catch (error) {
-      alert('Error: Could not connect to the server.');
-      setRsvpStatus('idle');
-    }
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setRsvpData(prev => ({ ...prev, [name]: value }));
-  };
 
   return (
     <div className={`wedding-site ${isAnimationFinished ? 'content-ready' : 'locked'} ${isDoorOpen ? 'animating-reveal' : ''}`}>
@@ -152,7 +123,7 @@ function App() {
               <li><a href="#events" onClick={closeMenu}>Events</a></li>
               <li><a href="#venue" onClick={closeMenu}>Venue</a></li>
 
-              <li><a href="#rsvp" onClick={closeMenu}>RSVP</a></li>
+
             </ul>
           </div>
         </nav>
@@ -281,6 +252,30 @@ function App() {
 
 
 
+        {/* Scrolling Animation: Walking Couple */}
+        <div 
+          className={`walking-couple-container ${scrollProgress > 0.95 ? 'together' : ''}`}
+          style={{ opacity: isAnimationFinished ? 1 : 0 }}
+        >
+          <img 
+            src={groomWalker} 
+            alt="Groom" 
+            className="groom-walker"
+            style={{ 
+              left: `${scrollProgress * 45}%`
+            }}
+          />
+          <div className="meeting-heart">❤️</div>
+          <img 
+            src={brideWalker} 
+            alt="Bride" 
+            className="bride-walker"
+            style={{ 
+              right: `${scrollProgress * 45}%`
+            }}
+          />
+        </div>
+
         {/* Quotes Section */}
         <section className="quotes-section">
           <div className="container quotes-container">
@@ -293,66 +288,7 @@ function App() {
           </div>
         </section>
 
-        {/* RSVP Section */}
-        <section id="rsvp" className="rsvp-section">
-          <div className="container">
-            <div className="rsvp-card">
-              <h2 className="section-title">RSVP</h2>
 
-              {rsvpStatus === 'success' ? (
-                <div className="rsvp-success-msg">
-                  <div className="check-circle">✓</div>
-                  <h3 className="serif">Response Sent!</h3>
-                  <p>Thank you for letting us know. We have received your RSVP via email.</p>
-                  <button
-                    onClick={() => setRsvpStatus('idle')}
-                    className="submit-btn small-btn"
-                  >
-                    Done
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <p className="rsvp-subtitle">Will you be joining us? Please fill out the form below.</p>
-                  <form className="rsvp-form" onSubmit={handleRSVPSubmit}>
-                    <div className="input-group">
-                      <input
-                        type="text"
-                        name="name"
-                        placeholder="Your Name"
-                        value={rsvpData.name}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                    <div className="input-group">
-                      <input
-                        type="number"
-                        name="guests"
-                        placeholder="Number of Guests"
-                        min="1"
-                        value={rsvpData.guests}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                    <div className="input-group">
-                      <textarea
-                        name="message"
-                        placeholder="Message (Optional)"
-                        value={rsvpData.message}
-                        onChange={handleChange}
-                      ></textarea>
-                    </div>
-                    <button type="submit" className="submit-btn" disabled={rsvpStatus === 'submitting'}>
-                      <span>{rsvpStatus === 'submitting' ? 'Sending...' : 'Send RSVP'}</span>
-                    </button>
-                  </form>
-                </>
-              )}
-            </div>
-          </div>
-        </section>
 
         {/* Footer */}
         <footer className="footer">
