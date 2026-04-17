@@ -262,6 +262,19 @@ function App() {
           <div className="footer-content">
             <h3 className="serif">Gouri & Shridhar</h3>
             <p>We look forward to celebrating with you</p>
+
+            <div className="footer-contact">
+              <p className="contact-title">Contact Developer (Raj Kate)</p>
+              <div className="contact-links">
+                <a href="https://www.instagram.com/raj.kate99/" target="_blank" rel="noopener noreferrer" className="contact-item">
+                  <span className="icon">📸</span> Instagram: raj.kate99
+                </a>
+                <a href="https://wa.me/918446511816" target="_blank" rel="noopener noreferrer" className="contact-item">
+                  <span className="icon">💬</span> WhatsApp: +91 8446511816
+                </a>
+              </div>
+            </div>
+
             <div className="footer-divider"></div>
             <p className="copyright">&copy; 2026 Crafted By Raj Kate</p>
           </div>
